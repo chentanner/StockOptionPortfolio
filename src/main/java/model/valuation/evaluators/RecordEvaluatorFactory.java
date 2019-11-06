@@ -4,7 +4,7 @@ import enums.RecordType;
 
 import java.util.HashMap;
 
-public class RecordEvaluatorFactory {
+public class RecordEvaluatorFactory implements RecordEvaluatorFactoryInterface{
 
     private static RecordEvaluatorFactory instance = new RecordEvaluatorFactory();
 

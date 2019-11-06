@@ -21,10 +21,8 @@ public class ValuationResultCsvSerializer {
 
         StringBuilder sb = new StringBuilder();
         sb.append(valuationResult.getEmployeeId());
-        sb.append(",");
-        sb.append(formatTotalCashGain(valuationResult.getTotalCashToGain()));
-        sb.append(",");
-        sb.append(formatTotalCashGain(valuationResult.getTotalCashGained()));
+        sb.append(",").append(formatTotalCashGain(valuationResult.getTotalCashToGain()));
+        sb.append(",").append(formatTotalCashGain(valuationResult.getTotalCashGained()));
 
         return sb.toString();
     }

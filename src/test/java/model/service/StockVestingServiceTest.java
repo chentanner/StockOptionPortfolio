@@ -1,6 +1,7 @@
 package model.service;
 
 import model.valuation.StockOptionPortfolio;
+import model.valuation.evaluators.PortfolioEvaluator;
 import model.valuation.results.StockOptionPortfolioValuationResult;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
@@ -13,7 +14,8 @@ public class StockVestingServiceTest {
 
     @BeforeTest
     public void setUp(){
-        this.service = new StockVestingService();
+        PortfolioEvaluator evaluatorMock = stockVesting -> new StockOptionPortfolioValuationResult();
+        this.service = new StockVestingService(evaluatorMock);
     }
 
     @Test

@@ -45,7 +45,7 @@ public class StockOptionValuationTest {
         stockOptionValuation.addWeightedGrantPrice(grantPrice, stockCount);
 
         Assert.assertEquals(stockOptionValuation.getTotalStockCount().doubleValue(), 0d);
-        Assert.assertNull(stockOptionValuation.getAverageGrantPrice());
+        Assert.assertEquals(stockOptionValuation.getAverageGrantPrice().doubleValue(), 0d);
 
         BigDecimal grantPrice2 = BigDecimal.valueOf(2);
         Integer stockCount2 = 1;
@@ -85,7 +85,7 @@ public class StockOptionValuationTest {
         stockOptionValuation.addWeightedGrantPrice(grantPrice, stockCount);
 
         Assert.assertEquals(stockOptionValuation.getTotalStockCount().intValue(), 0);
-        Assert.assertNull(stockOptionValuation.getAverageGrantPrice());
+        Assert.assertEquals(stockOptionValuation.getAverageGrantPrice().doubleValue(), 0d);
 
         BigDecimal grantPrice2 = BigDecimal.valueOf(2);
         Integer stockCount2 = 1;

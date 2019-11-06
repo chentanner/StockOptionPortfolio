@@ -6,8 +6,7 @@ import java.math.RoundingMode;
 public class StockOptionValuation {
 
     private Integer totalStockCount = 0;
-    private BigDecimal averageGrantPrice = null;
-    private  BigDecimal totalValueToGain = BigDecimal.ZERO;
+    private BigDecimal averageGrantPrice = BigDecimal.ZERO;
     private BigDecimal totalValueGained = BigDecimal.ZERO;
 
     public StockOptionValuation(){
@@ -30,14 +29,19 @@ public class StockOptionValuation {
         this.averageGrantPrice = averageGrantPrice;
     }
 
+    /**
+     * The grantPrice and stockCount will be added to the rolling averageGrantPrice.
+     * @param grantPrice
+     * @param stockCount
+     */
     public void addWeightedGrantPrice(BigDecimal grantPrice, Integer stockCount){
         if(stockCount == null || grantPrice == null)
             return;
 
         this.setTotalStockCount(this.getTotalStockCount() + stockCount);
 
-        if(this.getAverageGrantPrice() == null ||
-                this.getAverageGrantPrice().doubleValue() == 0d ||
+        // This handles the base case if it's the first time StockOptionValuation is adding a weighted grant price
+        if(this.getAverageGrantPrice().doubleValue() == 0d ||
                 stockCount == 0){
             // Evaluating first VestingRecord
             this.setAverageGrantPrice(grantPrice);

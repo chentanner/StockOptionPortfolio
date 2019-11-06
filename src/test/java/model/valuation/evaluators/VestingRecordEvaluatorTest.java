@@ -62,7 +62,7 @@ public class VestingRecordEvaluatorTest {
 
         StockOptionValuation resultPortfolio = evaluator.evaluate(record, context, portfolio);
 
-        Assert.assertEquals(resultPortfolio.getTotalValueToGain(marketPrice), BigDecimal.ZERO);
+        Assert.assertEquals(resultPortfolio.getTotalValueToGain(marketPrice).doubleValue(), 0d);
     }
 
     @Test
@@ -105,6 +105,6 @@ public class VestingRecordEvaluatorTest {
 
         StockOptionValuation resultPortfolio = evaluator.evaluate(record, context, portfolio);
 
-        Assert.assertEquals(resultPortfolio.getTotalValueToGain(marketPrice), BigDecimal.ZERO);
+        Assert.assertEquals(resultPortfolio.getTotalValueToGain(marketPrice).doubleValue(), 0d);
     }
 }

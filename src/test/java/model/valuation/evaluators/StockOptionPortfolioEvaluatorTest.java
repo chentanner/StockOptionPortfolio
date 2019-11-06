@@ -18,7 +18,9 @@ public class StockOptionPortfolioEvaluatorTest {
 
     @BeforeTest
     public void setUp(){
-        this.evaluator = new StockOptionPortfolioEvaluator();
+        RecordEvaluatorFactoryInterface recordEvaluatorFactory = RecordEvaluatorFactory.getInstance();
+
+        this.evaluator = new StockOptionPortfolioEvaluator(recordEvaluatorFactory);
     }
 
     @Test

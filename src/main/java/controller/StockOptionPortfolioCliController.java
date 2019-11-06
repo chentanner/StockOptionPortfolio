@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class StockOptionPortfolioCliController {
+public class StockOptionPortfolioCliController implements StockOptionPortfolioController{
     private StockVestingValuationService stockVestingService;
     private StockOptionPortfolioParser stockOptionPortfolioParser;
     private StockVestingValuationResultWriter stockVestingWriter;

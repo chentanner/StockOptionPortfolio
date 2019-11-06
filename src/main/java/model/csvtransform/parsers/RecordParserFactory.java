@@ -4,7 +4,7 @@ import enums.RecordType;
 
 import java.util.HashMap;
 
-public class RecordParserFactory {
+public class RecordParserFactory implements RecordParserFactoryInterface {
 
     private static RecordParserFactory instance = new RecordParserFactory();
 
@@ -20,9 +20,7 @@ public class RecordParserFactory {
         csvParsers.put(RecordType.SALE, new SaleRecordParser());
     }
 
-    private RecordParserFactory() {
-    }
-
+    private RecordParserFactory() {}
 
     public RecordParser getCsvLineParser(RecordType recordType) {
         return csvParsers.get(recordType);

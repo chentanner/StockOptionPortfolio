@@ -10,7 +10,13 @@ import model.valuation.results.ValuationResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StockOptionPortfolioEvaluator {
+public class StockOptionPortfolioEvaluator implements PortfolioEvaluator{
+
+    private RecordEvaluatorFactoryInterface recordEvaluatorFactory;
+
+    public StockOptionPortfolioEvaluator(RecordEvaluatorFactoryInterface recordEvaluatorFactory ){
+        this.recordEvaluatorFactory = recordEvaluatorFactory;
+    }
 
     public StockOptionPortfolioValuationResult evaluateStockVestingValuation(StockOptionPortfolio stockVesting) {
         StockOptionPortfolioValuationResult stockOptionPortfolioValuationResult = new StockOptionPortfolioValuationResult();
@@ -48,7 +54,7 @@ public class StockOptionPortfolioEvaluator {
                 break;
             }
 
-            RecordEvaluator evaluator = RecordEvaluatorFactory.getInstance().getEvaluator(abstractRecord.getType());
+            RecordEvaluator evaluator = this.recordEvaluatorFactory.getEvaluator(abstractRecord.getType());
             valuation = evaluator.evaluate(abstractRecord, context, valuation);
         }
 

@@ -10,9 +10,11 @@ import java.io.*;
 public class StockOptionPortfolioCsvParser implements StockOptionPortfolioParser {
 
     private ValuationContextCsvParser valuationContextCsvParser;
+    private RecordParserFactoryInterface recordParserFactory;
 
-    public StockOptionPortfolioCsvParser(ValuationContextCsvParser valuationContextCsvParser){
+    public StockOptionPortfolioCsvParser(ValuationContextCsvParser valuationContextCsvParser, RecordParserFactoryInterface recordParserFactory){
         this.valuationContextCsvParser = valuationContextCsvParser;
+        this.recordParserFactory = recordParserFactory;
     }
 
     /**
@@ -37,7 +39,7 @@ public class StockOptionPortfolioCsvParser implements StockOptionPortfolioParser
             String [] splitLine = getNextLine(reader).split(",");
 
             RecordType lineRecordType = RecordType.valueOf(splitLine[0]);
-            RecordParser recordParser = RecordParserFactory.getInstance().getCsvLineParser(lineRecordType);
+            RecordParser recordParser = this.recordParserFactory.getCsvLineParser(lineRecordType);
 
             AbstractRecord record = recordParser.processLine(splitLine);
             stockVesting.addRecord(record.getEmployeeId(), record);
