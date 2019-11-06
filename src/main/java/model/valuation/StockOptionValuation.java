@@ -1,15 +1,16 @@
-package model.valuation.evaluators;
+package model.valuation;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
-public class StockOptionPortfolio {
+public class StockOptionValuation {
 
     private Integer totalStockCount = 0;
     private BigDecimal averageGrantPrice = null;
     private  BigDecimal totalValueToGain = BigDecimal.ZERO;
     private BigDecimal totalValueGained = BigDecimal.ZERO;
 
-    public StockOptionPortfolio(){
+    public StockOptionValuation(){
 
     }
 
@@ -30,14 +31,20 @@ public class StockOptionPortfolio {
     }
 
     public void addWeightedGrantPrice(BigDecimal grantPrice, Integer stockCount){
+        if(stockCount == null || grantPrice == null)
+            return;
+
         this.setTotalStockCount(this.getTotalStockCount() + stockCount);
 
-        if(this.getAverageGrantPrice() == null){
-            // Evaluating first VestingValuation
+        if(this.getAverageGrantPrice() == null ||
+                this.getAverageGrantPrice().doubleValue() == 0d ||
+                stockCount == 0){
+            // Evaluating first VestingRecord
             this.setAverageGrantPrice(grantPrice);
+            return;
         }
         // Calculate weight factors: (vestAmount/totalAmount) and (1 - vestAmount/totalAmount)
-        BigDecimal grantPriceWeightFactor = BigDecimal.valueOf(stockCount).divide(BigDecimal.valueOf(this.getTotalStockCount()));
+        BigDecimal grantPriceWeightFactor = BigDecimal.valueOf(stockCount).divide(BigDecimal.valueOf(this.getTotalStockCount()),8, RoundingMode.HALF_UP);
         BigDecimal previousGrantPriceWeightFactor = BigDecimal.ONE.subtract(grantPriceWeightFactor);
 
         // ((previousGrantPrice * wieghtFactor) + (grantPrice * weightFactor))

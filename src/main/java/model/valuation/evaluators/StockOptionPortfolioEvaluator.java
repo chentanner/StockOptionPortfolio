@@ -1,9 +1,10 @@
 package model.valuation.evaluators;
 
-import model.valuation.AbstractValuation;
-import model.valuation.StockOptionPortfolioValuation;
+import model.valuation.AbstractRecord;
+import model.valuation.StockOptionPortfolio;
+import model.valuation.StockOptionValuation;
 import model.valuation.ValuationContext;
-import model.valuation.results.StockVestingValuationResult;
+import model.valuation.results.StockOptionPortfolioValuationResult;
 import model.valuation.results.ValuationResult;
 
 import java.util.ArrayList;
@@ -11,51 +12,46 @@ import java.util.List;
 
 public class StockOptionPortfolioEvaluator {
 
-    public StockVestingValuationResult evaluateStockVestingValuation(StockOptionPortfolioValuation stockVesting) {
-        StockVestingValuationResult stockVestingValuationResult = new StockVestingValuationResult();
+    public StockOptionPortfolioValuationResult evaluateStockVestingValuation(StockOptionPortfolio stockVesting) {
+        StockOptionPortfolioValuationResult stockOptionPortfolioValuationResult = new StockOptionPortfolioValuationResult();
         ValuationContext context = stockVesting.getValuationContext();
 
         for (String employeeId : stockVesting.getEmployeeIds()) {
-            List<AbstractValuation> sortedValuations = new ArrayList<>(stockVesting.getEmployeeValuations(employeeId));
+            List<AbstractRecord> sortedRecords = new ArrayList<>(stockVesting.getEmployeeRecords(employeeId));
             // Sort valuations based on record date, if there is a collision, make sure PERF types are last.
-            sortedValuations.sort((valuation1, valuation2) ->{
-                int result = valuation1.getRecordDate().compareTo(valuation2.getRecordDate());
+            sortedRecords.sort((record1, record2) ->{
+                int result = record1.getRecordDate().compareTo(record2.getRecordDate());
                 if(result == 0){
-                    return valuation1.getType().compareTo(valuation2.getType());
+                    return record1.getType().compareTo(record2.getType());
                 }
                 return result;
             });
 
-            StockOptionPortfolio portfolio = calculateTotalCashGain(sortedValuations, context);
+            StockOptionValuation valuation = calculateTotalCashGain(sortedRecords, context);
 
             ValuationResult valuationResult = new ValuationResult(
                     employeeId,
-                    portfolio.getTotalValueToGain(context.getMarketPrice()),
-                    portfolio.getTotalValueGained());
-            stockVestingValuationResult.addValuationResult(valuationResult);
+                    valuation.getTotalValueToGain(context.getMarketPrice()),
+                    valuation.getTotalValueGained());
+            stockOptionPortfolioValuationResult.addValuationResult(valuationResult);
         }
 
-        return stockVestingValuationResult;
+        return stockOptionPortfolioValuationResult;
     }
 
-    private StockOptionPortfolio calculateTotalCashGain (List<AbstractValuation> sortedValuations, ValuationContext context){
-        StockOptionPortfolio portfolio = new StockOptionPortfolio();
-        for (AbstractValuation abstractValuation : sortedValuations) {
-            if (abstractValuation.getRecordDate().compareTo(context.getValuationDate()) >= 0) {
+    private StockOptionValuation calculateTotalCashGain (List<AbstractRecord> sortedRecords, ValuationContext context){
+        StockOptionValuation valuation = new StockOptionValuation();
+        for (AbstractRecord abstractRecord : sortedRecords) {
+            if (abstractRecord.getRecordDate().compareTo(context.getValuationDate()) >= 0) {
                 // Since valuations are sorted, we can stop processing them
                 // when we hit our first item with a date beyond the valuation date.
                 break;
             }
 
-            ValuationRecordEvaluator evaluator = ValuationRecordEvaluatorFactory.getInstance().getEvaluator(abstractValuation.getType());
-            portfolio = evaluator.evaluate(abstractValuation, context, portfolio);
+            RecordEvaluator evaluator = RecordEvaluatorFactory.getInstance().getEvaluator(abstractRecord.getType());
+            valuation = evaluator.evaluate(abstractRecord, context, valuation);
         }
 
-//        if (totalCashGain.doubleValue() < 0) {
-//            // Normalizing for "under water" options
-//            totalCashGain = BigDecimal.ZERO;
-//        }
-
-        return portfolio;
+        return valuation;
     }
 }

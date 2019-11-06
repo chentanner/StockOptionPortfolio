@@ -1,20 +1,20 @@
 package model.valuation;
 
-import enums.ValuationType;
+import enums.RecordType;
 
 import java.math.BigDecimal;
 
-public class PerfValuation extends AbstractValuation{
+public class PerformanceRecord extends AbstractRecord {
 
     private BigDecimal performanceMultiplier = BigDecimal.valueOf(1);
 
-    public PerfValuation(){
+    public PerformanceRecord(){
         super();
     };
 
     @Override
-    public ValuationType getType() {
-        return ValuationType.PERF;
+    public RecordType getType() {
+        return RecordType.PERF;
     }
 
     public BigDecimal getPerformanceMultiplier() {

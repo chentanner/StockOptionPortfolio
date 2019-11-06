@@ -1,8 +1,8 @@
 package service;
 
-import model.valuation.StockOptionPortfolioValuation;
-import model.valuation.results.StockVestingValuationResult;
+import model.valuation.StockOptionPortfolio;
+import model.valuation.results.StockOptionPortfolioValuationResult;
 
 public interface StockVestingValuationService {
-    public StockVestingValuationResult calculateValuation(StockOptionPortfolioValuation stockVesting);
+    public StockOptionPortfolioValuationResult calculateValuation(StockOptionPortfolio stockVesting);
 }

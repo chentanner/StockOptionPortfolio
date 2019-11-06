@@ -2,10 +2,10 @@ import controller.StockOptionPortfolioCliController;
 import model.csvtransform.writers.StockVestingValuationResultCsvWriter;
 import service.StockVestingValuationService;
 import service.StockVestingService;
-import model.csvtransform.parsers.StockVestingCsvParser;
-import model.csvtransform.parsers.StockVestingParser;
+import model.csvtransform.parsers.StockOptionPortfolioCsvParser;
+import model.csvtransform.parsers.StockOptionPortfolioParser;
+import model.csvtransform.parsers.ValuationContextCsvParser;
 import model.csvtransform.parsers.ValuationContextParser;
-import model.csvtransform.parsers.ValuationContextSimpleParser;
 
 import java.io.IOException;
 
@@ -13,17 +13,17 @@ public class Main {
     public static void main (String [] args) throws IOException {
 
         // Dependency injection... Ideally this would be handled by a framework such as Spring.
-        ValuationContextParser valuationContextParser = new ValuationContextSimpleParser();
-        StockVestingParser stockVestingParser = new StockVestingCsvParser(valuationContextParser);
+        ValuationContextCsvParser valuationContextCsvParser = new ValuationContextParser();
+        StockOptionPortfolioParser stockOptionPortfolioParser = new StockOptionPortfolioCsvParser(valuationContextCsvParser);
         StockVestingValuationResultCsvWriter stockVestingWriter = new StockVestingValuationResultCsvWriter();
 
         StockVestingValuationService stockVestingService = new StockVestingService();
 
         StockOptionPortfolioCliController controller = new StockOptionPortfolioCliController(
                 stockVestingService,
-                stockVestingParser,
+                stockOptionPortfolioParser,
                 stockVestingWriter);
 
-        controller.evaluateStockVestings();
+        controller.evaluateStockVestings(System.in, System.out);
     }
 }

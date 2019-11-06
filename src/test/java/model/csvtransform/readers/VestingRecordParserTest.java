@@ -1,32 +1,26 @@
-package model.csvstransform.readers;
+package model.csvtransform.readers;
 
 import model.csvtransform.parsers.DateParser;
-import model.csvtransform.parsers.VestingValuationRecordParser;
-import model.valuation.AbstractValuation;
-import model.valuation.ValuationContext;
-import model.valuation.ValuationFixture;
-import model.valuation.VestingValuation;
-import model.valuation.evaluators.VestingRecordEvaluator;
+import model.csvtransform.parsers.VestingRecordParser;
+import model.valuation.AbstractRecord;
+import model.valuation.VestingRecord;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.util.Date;
 
-public class VestingValuationRecordParserTest {
+public class VestingRecordParserTest {
 
-    private VestingValuationRecordParser parser;
+    private VestingRecordParser parser;
 
     @BeforeTest
     public void setUp(){
-        this.parser = new VestingValuationRecordParser();
+        this.parser = new VestingRecordParser();
     }
 
     @Test
-    public void testVestingParser() throws ParseException, IOException {
+    public void testVestingParser() throws IOException {
         String type = "VEST";
         String employeeId = "emp1";
         String date = "20130101";
@@ -34,11 +28,11 @@ public class VestingValuationRecordParserTest {
         Double grantPrice = 0.45d;
         String[] inputArray = {type, employeeId, date, unitCount.toString(), grantPrice.toString()};
 
-        AbstractValuation valuation = this.parser.processLine(inputArray);
-        VestingValuation vestingValuation = (VestingValuation)valuation;
-        Assert.assertEquals(valuation.getType().toString(), type);
-        Assert.assertEquals(valuation.getEmployeeId(), employeeId);
-        Assert.assertEquals(valuation.getRecordDate(), DateParser.parseDate(date));
+        AbstractRecord record = this.parser.processLine(inputArray);
+        VestingRecord vestingValuation = (VestingRecord)record;
+        Assert.assertEquals(record.getType().toString(), type);
+        Assert.assertEquals(record.getEmployeeId(), employeeId);
+        Assert.assertEquals(record.getRecordDate(), DateParser.parseDate(date));
         Assert.assertEquals(vestingValuation.getUnitCount(), unitCount);
         Assert.assertEquals(vestingValuation.getGrantPrice().doubleValue(), grantPrice);
     }
@@ -53,7 +47,7 @@ public class VestingValuationRecordParserTest {
         String[] inputArray = {type, employeeId, date, unitCount.toString(), grantPrice.toString(), "EXTRA_ITEM"};
 
         try{
-            AbstractValuation valuation = this.parser.processLine(inputArray);
+            this.parser.processLine(inputArray);
             Assert.fail("Expected exception thrown.");
         }catch (IOException ioe){
             // Expected IOExceptions... Pass

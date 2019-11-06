@@ -1,6 +1,6 @@
 package enums;
 
-public enum ValuationType  {
+public enum RecordType {
     VEST(0),
     SALE(1),
     PERF(2);
@@ -8,11 +8,11 @@ public enum ValuationType  {
 
     private Integer sortOrder;
 
-    ValuationType(int sortOrder) {
+    RecordType(int sortOrder) {
         this.sortOrder = sortOrder;
     }
 
-    public int compareTo(ValuationType obj1, ValuationType obj2){
+    public int compareTo(RecordType obj1, RecordType obj2){
         return obj1.sortOrder.compareTo(obj2.sortOrder);
     }
 }

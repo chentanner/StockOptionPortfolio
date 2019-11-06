@@ -1,26 +1,27 @@
 package model.valuation.evaluators;
 
-import model.valuation.AbstractValuation;
+import model.valuation.AbstractRecord;
+import model.valuation.StockOptionValuation;
 import model.valuation.ValuationContext;
-import model.valuation.VestingValuation;
+import model.valuation.VestingRecord;
 
-public class VestingRecordEvaluator implements ValuationRecordEvaluator {
+public class VestingRecordEvaluator implements RecordEvaluator {
 
     @Override
-    public StockOptionPortfolio evaluate(AbstractValuation valuation, ValuationContext context, StockOptionPortfolio portfolio) {
-        VestingValuation vestingValuation = (VestingValuation)valuation;
+    public StockOptionValuation evaluate(AbstractRecord record, ValuationContext context, StockOptionValuation valuation) {
+        VestingRecord vestingRecord = (VestingRecord)record;
 
-        if(context.getMarketPrice().subtract(vestingValuation.getGrantPrice()).doubleValue() < 0){
+        if(context.getMarketPrice().subtract(vestingRecord.getGrantPrice()).doubleValue() < 0){
             // Vesting is under water.
-            return portfolio;
+            return valuation;
         }
 
-        if(vestingValuation.getUnitCount() == 0) {
-            return portfolio;
+        if(vestingRecord.getUnitCount() == 0) {
+            return valuation;
         }
 
-        portfolio.addWeightedGrantPrice(vestingValuation.getGrantPrice(), vestingValuation.getUnitCount());
+        valuation.addWeightedGrantPrice(vestingRecord.getGrantPrice(), vestingRecord.getUnitCount());
 
-        return portfolio;
+        return valuation;
     }
 }

@@ -1,25 +1,39 @@
 package model.valuation.evaluators;
 
-import model.valuation.AbstractValuation;
-import model.valuation.SaleValuation;
+import model.valuation.AbstractRecord;
+import model.valuation.SaleRecord;
+import model.valuation.StockOptionValuation;
 import model.valuation.ValuationContext;
 
 import java.math.BigDecimal;
 
-public class SaleRecordEvaluator implements ValuationRecordEvaluator {
+public class SaleRecordEvaluator implements RecordEvaluator {
 
     @Override
-    public StockOptionPortfolio evaluate(AbstractValuation valuation, ValuationContext context, StockOptionPortfolio portfolio) {
-        SaleValuation saleValuation = (SaleValuation)valuation;
+    public StockOptionValuation evaluate(AbstractRecord record, ValuationContext context, StockOptionValuation valuation) {
+        SaleRecord saleRecord = (SaleRecord) record;
 
+        if(saleRecord.getAmountSold() == 0){
+            // If nothing is sold ignore the record.
+            return valuation;
+        }
+        if(saleRecord.getAmountSold() < 0){
+            // If nothing is sold ignore the record.
+            throw new RuntimeException("Can't sell negative amount of stock.");
+        }
+
+        Integer updatedStockCount = valuation.getTotalStockCount() - saleRecord.getAmountSold();
+        if(updatedStockCount < 0){
+            throw new RuntimeException("Attempted to over sell stock.");
+        }
         //reduce portfolio stock count
-        portfolio.setTotalStockCount(portfolio.getTotalStockCount() - saleValuation.getAmountSold());
+        valuation.setTotalStockCount(valuation.getTotalStockCount() - saleRecord.getAmountSold());
 
         // Update total gained value
-        BigDecimal optionPrice = saleValuation.getSalePrice().subtract(portfolio.getAverageGrantPrice());
-        BigDecimal saleGains = optionPrice.multiply(BigDecimal.valueOf(saleValuation.getAmountSold()));
-        portfolio.setTotalValueGained(portfolio.getTotalValueGained().add(saleGains) );
+        BigDecimal optionPrice = saleRecord.getSalePrice().subtract(valuation.getAverageGrantPrice());
+        BigDecimal saleGains = optionPrice.multiply(BigDecimal.valueOf(saleRecord.getAmountSold()));
+        valuation.setTotalValueGained(valuation.getTotalValueGained().add(saleGains) );
 
-        return portfolio;
+        return valuation;
     }
 }

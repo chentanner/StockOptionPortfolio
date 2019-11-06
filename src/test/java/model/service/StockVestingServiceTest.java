@@ -1,13 +1,11 @@
 package model.service;
 
-import model.valuation.StockOptionPortfolioValuation;
-import model.valuation.results.StockVestingValuationResult;
+import model.valuation.StockOptionPortfolio;
+import model.valuation.results.StockOptionPortfolioValuationResult;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import service.StockVestingService;
-
-import java.text.ParseException;
 
 public class StockVestingServiceTest {
 
@@ -19,10 +17,10 @@ public class StockVestingServiceTest {
     }
 
     @Test
-    public void testCalculateValuation() throws ParseException {
+    public void testCalculateValuation()  {
         // The service is more of a wrapper for StockOptionPortfolioEvaluator, so we just need a smoke test here.
-        StockOptionPortfolioValuation stockVesting = new StockOptionPortfolioValuation();
-        StockVestingValuationResult result = service.calculateValuation(stockVesting);
+        StockOptionPortfolio stockVesting = new StockOptionPortfolio();
+        StockOptionPortfolioValuationResult result = service.calculateValuation(stockVesting);
         Assert.assertNotNull(result);
     }
 }

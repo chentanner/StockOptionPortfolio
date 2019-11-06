@@ -1,21 +1,21 @@
 package model.valuation;
 
-import enums.ValuationType;
+import enums.RecordType;
 
 import java.util.Date;
 
-public abstract class AbstractValuation {
+public abstract class AbstractRecord {
 
     private String employeeId;
     private Date recordDate;
 
-    protected AbstractValuation(){ }
+    protected AbstractRecord(){ }
 
     /**
-     * Implemented by subclasses, returns the ValuationType.
-     * @return ValuationType
+     * Implemented by subclasses, returns the RecordType.
+     * @return RecordType
      */
-    public abstract ValuationType getType();
+    public abstract RecordType getType();
 
     public String getEmployeeId() {
         return employeeId;

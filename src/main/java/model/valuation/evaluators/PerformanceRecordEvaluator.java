@@ -1,20 +1,21 @@
 package model.valuation.evaluators;
 
-import model.valuation.AbstractValuation;
-import model.valuation.PerfValuation;
+import model.valuation.AbstractRecord;
+import model.valuation.PerformanceRecord;
+import model.valuation.StockOptionValuation;
 import model.valuation.ValuationContext;
 
 import java.math.BigDecimal;
 
-public class PerformanceRecordEvaluator implements ValuationRecordEvaluator {
+public class PerformanceRecordEvaluator implements RecordEvaluator {
 
     @Override
-    public StockOptionPortfolio evaluate(AbstractValuation valuation, ValuationContext context, StockOptionPortfolio portfolio) {
-        PerfValuation perfValuation = (PerfValuation)valuation;
+    public StockOptionValuation evaluate(AbstractRecord record, ValuationContext context, StockOptionValuation valuation) {
+        PerformanceRecord performanceRecord = (PerformanceRecord) record;
 
-        BigDecimal updatedStockCount = BigDecimal.valueOf(portfolio.getTotalStockCount()).multiply(perfValuation.getPerformanceMultiplier());
-        portfolio.setTotalStockCount(updatedStockCount.intValue());
+        BigDecimal updatedStockCount = BigDecimal.valueOf(valuation.getTotalStockCount()).multiply(performanceRecord.getPerformanceMultiplier());
+        valuation.setTotalStockCount(updatedStockCount.intValue());
 
-        return portfolio;
+        return valuation;
     }
 }

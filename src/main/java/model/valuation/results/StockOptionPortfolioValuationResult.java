@@ -3,7 +3,7 @@ package model.valuation.results;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StockVestingValuationResult {
+public class StockOptionPortfolioValuationResult {
     private List<ValuationResult> valuationResults = new ArrayList<>();
 
     public void addValuationResult(ValuationResult valuationResult){

@@ -1,6 +1,6 @@
 package model.csvtransform.writers;
 
-import model.valuation.results.StockVestingValuationResult;
+import model.valuation.results.StockOptionPortfolioValuationResult;
 import model.valuation.results.ValuationResult;
 
 import java.io.BufferedWriter;
@@ -23,7 +23,7 @@ public class StockVestingValuationResultCsvWriter implements StockVestingValuati
      * @throws IOException
      */
     @Override
-    public void writeToStream(StockVestingValuationResult vestingValuationResult, OutputStream outStream) throws IOException {
+    public void writeToStream(StockOptionPortfolioValuationResult vestingValuationResult, OutputStream outStream) throws IOException {
         List<ValuationResult> valuationResults = vestingValuationResult.getValuationResults();
         // Sort results by employee id.
         Collections.sort(valuationResults, Comparator.comparing(ValuationResult::getEmployeeId));

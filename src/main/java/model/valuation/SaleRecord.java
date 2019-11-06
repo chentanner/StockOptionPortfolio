@@ -1,21 +1,21 @@
 package model.valuation;
 
-import enums.ValuationType;
+import enums.RecordType;
 
 import java.math.BigDecimal;
 
-public class SaleValuation extends AbstractValuation{
+public class SaleRecord extends AbstractRecord {
 
     private Integer amountSold;
     private BigDecimal salePrice;
 
-    public SaleValuation(){
+    public SaleRecord(){
         super();
     };
 
     @Override
-    public ValuationType getType() {
-        return ValuationType.SALE;
+    public RecordType getType() {
+        return RecordType.SALE;
     }
 
     public Integer getAmountSold() {

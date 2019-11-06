@@ -1,21 +1,21 @@
 package model.valuation;
 
-import enums.ValuationType;
+import enums.RecordType;
 
 import java.math.BigDecimal;
 
-public class VestingValuation extends AbstractValuation{
+public class VestingRecord extends AbstractRecord {
 
     private Integer unitCount;
     private BigDecimal  grantPrice;
 
-    public VestingValuation(){
+    public VestingRecord(){
         super();
     };
 
     @Override
-    public ValuationType getType() {
-        return ValuationType.VEST;
+    public RecordType getType() {
+        return RecordType.VEST;
     }
 
     public Integer getUnitCount() {

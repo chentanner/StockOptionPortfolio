@@ -1,29 +1,25 @@
-package model.csvstransform.readers;
+package model.csvtransform.readers;
 
 import model.csvtransform.parsers.DateParser;
-import model.csvtransform.parsers.ValuationContextSimpleParser;
-import model.csvtransform.parsers.VestingValuationRecordParser;
-import model.valuation.AbstractValuation;
+import model.csvtransform.parsers.ValuationContextParser;
 import model.valuation.ValuationContext;
-import model.valuation.VestingValuation;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.text.ParseException;
 
-public class ValuationContextSimpleParserTest {
+public class ValuationContextParserTest {
 
-    private ValuationContextSimpleParser parser;
+    private ValuationContextParser parser;
 
     @BeforeTest
     public void setUp(){
-        this.parser = new ValuationContextSimpleParser();
+        this.parser = new ValuationContextParser();
     }
 
     @Test
-    public void testValuationContextParser() throws ParseException, IOException {
+    public void testValuationContextParser() throws IOException {
         String valuationDate = "20130101";
         Double marketPrice = 1d;
         String[] inputArray = {valuationDate, marketPrice.toString()};

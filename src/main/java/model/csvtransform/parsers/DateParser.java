@@ -8,7 +8,11 @@ public class DateParser {
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
 
-    public static Date parseDate (String dateString) throws ParseException {
-        return DATE_FORMAT.parse(dateString);
+    public static Date parseDate (String dateString) {
+        try {
+            return DATE_FORMAT.parse(dateString);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

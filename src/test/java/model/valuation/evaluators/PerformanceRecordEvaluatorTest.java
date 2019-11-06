@@ -1,18 +1,18 @@
 package model.valuation.evaluators;
 
 import model.csvtransform.parsers.DateParser;
-import model.valuation.PerfValuation;
+import model.valuation.PerformanceRecord;
+import model.valuation.StockOptionValuation;
 import model.valuation.ValuationContext;
-import model.valuation.ValuationFixture;
+import model.valuation.RecordFixture;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.util.Date;
 
-public class PerfomanceRecordEvaluatorTest {
+public class PerformanceRecordEvaluatorTest {
 
     private PerformanceRecordEvaluator evaluator;
 
@@ -22,9 +22,9 @@ public class PerfomanceRecordEvaluatorTest {
     }
 
     @Test
-    public void testEvaluator() throws ParseException {
+    public void testEvaluator() {
         BigDecimal perfMultiplier = BigDecimal.valueOf(1.5d);
-        PerfValuation valuation = ValuationFixture.CreatePerfValuation(perfMultiplier);
+        PerformanceRecord valuation = RecordFixture.CreatePerfRecord(perfMultiplier);
 
         BigDecimal marketPrice = BigDecimal.valueOf(1);
         Date evaluationDate = DateParser.parseDate("20140101");
@@ -32,19 +32,19 @@ public class PerfomanceRecordEvaluatorTest {
         context.setMarketPrice(marketPrice);
         context.setValuationDate(evaluationDate);
 
-        StockOptionPortfolio portfolio = new StockOptionPortfolio();
+        StockOptionValuation portfolio = new StockOptionValuation();
         portfolio.setTotalStockCount(1000);
 
-        StockOptionPortfolio resultPortfolio = evaluator.evaluate(valuation,context,portfolio);
+        StockOptionValuation resultPortfolio = evaluator.evaluate(valuation,context,portfolio);
 
         Assert.assertEquals(resultPortfolio.getTotalStockCount().intValue(), 1500);
     }
 
 
     @Test
-    public void testEvaluatorCurrentValueOfZero() throws ParseException {
+    public void testEvaluatorCurrentValueOfZero() {
         BigDecimal perfMultiplier = BigDecimal.valueOf(1.5d);
-        PerfValuation valuation = ValuationFixture.CreatePerfValuation(perfMultiplier);
+        PerformanceRecord valuation = RecordFixture.CreatePerfRecord(perfMultiplier);
 
         BigDecimal marketPrice = BigDecimal.valueOf(1);
         Date evaluationDate = DateParser.parseDate("20140101");
@@ -52,18 +52,18 @@ public class PerfomanceRecordEvaluatorTest {
         context.setMarketPrice(marketPrice);
         context.setValuationDate(evaluationDate);
 
-        StockOptionPortfolio portfolio = new StockOptionPortfolio();
+        StockOptionValuation portfolio = new StockOptionValuation();
         portfolio.setTotalStockCount(0);
 
-        StockOptionPortfolio resultPortfolio = evaluator.evaluate(valuation,context,portfolio);
+        StockOptionValuation resultPortfolio = evaluator.evaluate(valuation,context,portfolio);
 
         Assert.assertEquals(resultPortfolio.getTotalStockCount().intValue(), 0);
     }
 
     @Test
-    public void testEvaluatorZeroMulitplier() throws ParseException {
+    public void testEvaluatorZeroMulitplier() {
         BigDecimal perfMultiplier = BigDecimal.ZERO;
-        PerfValuation valuation = ValuationFixture.CreatePerfValuation(perfMultiplier);
+        PerformanceRecord valuation = RecordFixture.CreatePerfRecord(perfMultiplier);
 
         BigDecimal marketPrice = BigDecimal.valueOf(1);
         Date evaluationDate = DateParser.parseDate("20140101");
@@ -71,10 +71,10 @@ public class PerfomanceRecordEvaluatorTest {
         context.setMarketPrice(marketPrice);
         context.setValuationDate(evaluationDate);
 
-        StockOptionPortfolio portfolio = new StockOptionPortfolio();
+        StockOptionValuation portfolio = new StockOptionValuation();
         portfolio.setTotalStockCount(100);
 
-        StockOptionPortfolio resultPortfolio = evaluator.evaluate(valuation,context,portfolio);
+        StockOptionValuation resultPortfolio = evaluator.evaluate(valuation,context,portfolio);
 
         Assert.assertEquals(resultPortfolio.getTotalStockCount().intValue(), 0);
     }

@@ -1,6 +1,6 @@
 package model.csvtransform.writers;
 
-import model.valuation.results.StockVestingValuationResult;
+import model.valuation.results.StockOptionPortfolioValuationResult;
 import model.valuation.results.ValuationResult;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class StockVestingValuationResultCsvWriterTest {
+public class StockOptionValuationResultCsvWriterTest {
 
     private StockVestingValuationResultCsvWriter writer;
 
@@ -36,7 +36,7 @@ public class StockVestingValuationResultCsvWriterTest {
         String formattedTotalCashGained2 = totalCashGained2.setScale(2, RoundingMode.HALF_UP).toPlainString();
         ValuationResult valuationResult2 = new ValuationResult(employeeId2, totalCashToGain2, totalCashGained2);
 
-        StockVestingValuationResult vestingValuationResult = new StockVestingValuationResult();
+        StockOptionPortfolioValuationResult vestingValuationResult = new StockOptionPortfolioValuationResult();
         vestingValuationResult.addValuationResult(valuationResult);
         vestingValuationResult.addValuationResult(valuationResult2);
 
