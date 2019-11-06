@@ -36,7 +36,7 @@ PERF,001B,20130102,1.5
     - \<evaluation date\>,\<market price\>
 #### Run
 When running out of the project directory:
-1) ```java -jar build/libs/StockOptionVgit remote add origin https://github.com/chentanner/StockOptionVesting.gitesting-1.0.jar < input.def```
+1) ```java -jar build/libs/StockOptionVesting-1.0.jar < input.def```
     - Substitute input.def with a path to any configuration file.
     
  
