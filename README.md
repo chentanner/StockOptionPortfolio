@@ -1,3 +1,7 @@
+
+#### Disclaimer
+This project was used as a sample coding project and has no real world value to managing or evaluating stock option portfolio's. 
+
 # Stock Option Portfolio
 
 ## Overview
